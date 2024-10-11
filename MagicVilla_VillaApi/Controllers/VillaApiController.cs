@@ -5,6 +5,7 @@ using MagicVilla_VillaApi.Models.Dto;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 
@@ -256,7 +257,7 @@ namespace MagicVilla_VillaApi.Controllers
             //use db not store
             //var villa = VillaStore.villaList.FirstOrDefault(u => u.Id == id);
 
-            var villa = _db.Villas.FirstOrDefault(u => u.Id == id);
+            var villa = _db.Villas.AsNoTracking().FirstOrDefault(u => u.Id == id);
             VillaDto villaDto = new()
             {
                 Amenity = villa.Amenity,
@@ -286,7 +287,7 @@ namespace MagicVilla_VillaApi.Controllers
                 Sqft = villaDto.Sqft
             };
 
-            _db.Villas.Update(model);most
+            _db.Villas.Update(model);
             _db.SaveChanges();
             if (!ModelState.IsValid)
             {

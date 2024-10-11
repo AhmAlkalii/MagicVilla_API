@@ -1,4 +1,5 @@
 ﻿using MagicVilla_VillaApi.Data;
+using MagicVilla_VillaApi.Logging;
 using MagicVilla_VillaApi.Models;
 using MagicVilla_VillaApi.Models.Dto;
 using Microsoft.AspNetCore.Http.HttpResults;
@@ -15,13 +16,21 @@ namespace MagicVilla_VillaApi.Controllers
 
         //In order to implement logger 
 
-        private readonly ILogger<VillaApiController> _logger;
+        //private readonly ILogger<VillaApiController> _logger;
 
-        public VillaApiController(ILogger<VillaApiController> logger) 
-        {
-            _logger = logger;
+        //public VillaApiController(ILogger<VillaApiController> logger) 
+        //{
+        //    _logger = logger;
+        //}
+
+
+        //using our own logger interface and class
+        private readonly ILogging _logger;
+
+        public VillaApiController(ILogging logger) 
+        { 
+           _logger = logger;
         }
-
 
 
         [HttpGet] //Tell us the type of request
@@ -40,7 +49,12 @@ namespace MagicVilla_VillaApi.Controllers
 
             //we store the data inside the VillaStore class now we are calling it  instead of what we had before
             //return VillaStore.villaList;
-            _logger.LogInformation("Getting All Villas");
+
+
+            //_logger.LogInformation("Getting All Villas");  this is for third party logger
+
+            //this is for our own logger
+            _logger.Log("Getting All Villas", "");
             return Ok(VillaStore.villaList);
 
 
@@ -63,7 +77,8 @@ namespace MagicVilla_VillaApi.Controllers
             //lets add validation
             if(id == 0)
             {
-                _logger.LogError("Get Villa Error with Id" + id);
+                //_logger.LogError("Get Villa Error with Id" + id);
+                _logger.Log("Get Villa Error with Id" + id, "error");
                 return BadRequest();
             }
             var villa = VillaStore.villaList.FirstOrDefault(u => u.Id == id);

@@ -25,12 +25,15 @@ namespace MagicVilla_VillaApi.Controllers
 
 
         //using our own logger interface and class
-        private readonly ILogging _logger;
+        //private readonly ILogging _logger;
 
-        public VillaApiController(ILogging logger) 
-        { 
-           _logger = logger;
-        }
+        //public VillaApiController(ILogging logger) 
+        //{ 
+        //   _logger = logger;
+        //}
+
+
+
 
 
         [HttpGet] //Tell us the type of request
@@ -54,7 +57,7 @@ namespace MagicVilla_VillaApi.Controllers
             //_logger.LogInformation("Getting All Villas");  this is for third party logger
 
             //this is for our own logger
-            _logger.Log("Getting All Villas", "");
+            //_logger.Log("Getting All Villas", "");
             return Ok(VillaStore.villaList);
 
 
@@ -78,7 +81,7 @@ namespace MagicVilla_VillaApi.Controllers
             if(id == 0)
             {
                 //_logger.LogError("Get Villa Error with Id" + id);
-                _logger.Log("Get Villa Error with Id" + id, "error");
+                //_logger.Log("Get Villa Error with Id" + id, "error");
                 return BadRequest();
             }
             var villa = VillaStore.villaList.FirstOrDefault(u => u.Id == id);
